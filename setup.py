@@ -14,6 +14,7 @@ setup(
     author='Michal Wachowski',
     author_email='wachowski.michal@gmail.com',
     url='https://github.com/potfur/pollen',
+    download_url='https://github.com/potfur/pollen/archive/0.1.0.tar.gz',
     keywords=[
         'dependency injection',
         'container',
