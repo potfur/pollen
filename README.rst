@@ -92,17 +92,12 @@ Every other call will return existing instance.
 
 .. code:: python
 
-    class FooDBStuff(object):
-        def __init__(db):
-            pass
-
-    class BarFactory(object):
-        def __call__(container):
-            return FooDBStuff(container.get('db'))
+    def foo_factory(container):
+        return FooDBStuff(container.get('db'))
 
     pollen = Pollen()
     pollen.register('db', 'dsn')
-    pollen.register('foo', foo_factory)
+    pollen.register('foo', foo_factory, True)
 
     assert pollen.get('foo') is pollen.get('foo')
 
