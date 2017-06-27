@@ -127,3 +127,26 @@ objects etc.
         pollen.get('handler', session=db_session).do_stuff()
 
 **Note** configurable factories can not be marked as shared.
+
+
+Factory decorator
+-----------------
+
+The `register` method can be also used as a factory decorator to easily
+register them in a container. It requires `name` argument and accepts optional
+`shared` flag - just like normal usage.
+
+.. code:: python
+
+    pollen = Pollen()
+
+    @pollen.register('foo')
+    def foo_factory(container):
+        return FooDBStuff(container.get('db'))
+
+    @pollen.register(name='bar', shared=True)
+    def bar_factory(container):
+        return BarDBStuff(container.get('db'))
+
+    assert isinstance(pollen.get('foo'), FooDBStuff)
+    assert isinstance(pollen.get('bar'), BarDBStuff)

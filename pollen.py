@@ -22,8 +22,15 @@ class Pollen(object):
         self.__services = dict()
         self.__instances = dict()
 
-    def register(self, name, definition, shared=False):
+    def register(self, name, definition=None, shared=False):
         name = self.__get_fqn(name)
+
+        if definition is None:
+            def decorator(definition):
+                self.register(name or definition, definition, shared)
+                return definition
+
+            return decorator
 
         if self.has(name):
             msg = 'Name "%s" is already in use'

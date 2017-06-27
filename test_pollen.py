@@ -108,3 +108,26 @@ class TestContainer(PollenTestCase):
 
         assert self.container.has('test_pollen.Foo')
         assert self.container.get('test_pollen.Foo') == 1
+
+
+class TestDecorator(PollenTestCase):
+    def test_register_with_name_as_arg(self):
+        @self.container.register('foo')
+        def decorated_factory(*args):
+            return Foo()
+
+        assert isinstance(self.container.get('foo'), Foo)
+
+    def test_register_with_name_as_key(self):
+        @self.container.register(name='foo')
+        def decorated_factory(*args):
+            return Foo()
+
+        assert isinstance(self.container.get('foo'), Foo)
+
+    def test_register_as_shared(self):
+        @self.container.register(   'foo', shared=True)
+        def decorated_factory(*args):
+            return Foo()
+
+        assert self.container.get('foo') is self.container.get('foo')
